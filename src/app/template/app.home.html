@@ -1,0 +1,35 @@
+<div class="col-lg-3 col-md-3 col-sm-3" [style.top]="menuY">
+    <div>
+        <div *ngFor="let category of categories" (click)="onCategorySelect(category)">
+            <h5>
+                <span class="glyphicon glyphicon-th-list"></span>
+                <a href="javascript: void(0);" [style.font-weight]="getCategoryFontWeight(category)">{{ category.name }}</a>
+            </h5>
+            <div *ngIf="selectedCategory != undefined && category._id == selectedCategory._id">
+                <div *ngFor="let feed of feeds" (click)="onFeedSelect(feed)">
+                    <h5>
+                        &nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-list-alt"></span>
+                        <a href="javascript: void(0);" [style.font-weight]="getFeedFontWeight(feed)">{{ feed.name }}</a>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-9 col-md-9 col-sm-9">
+    <div *ngFor="let article of rss">
+        <div class="row">
+            <span class="small"><strong>{{ article.pubDate | date: 'MM/dd/yyyy hh:mm' }}</strong></span>
+            <span style="font-style: italic">{{  article.author == undefined ? '' : 'by ' + article.author }}</span>
+            <label class="control-label"><a href="{{ article.link }}" target="_blank">{{ article.title }}</a></label>
+        </div>
+        <div [innerHTML]="article.description" class="row">
+        </div>
+        <br>
+    </div>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-3" [style.top]="goUpY" style="position: absolute; cursor: pointer" *ngIf="isGoUpVisible()"
+    (click)="goUp()">
+    <span class="glyphicon glyphicon-chevron-up"></span> Go Up
+</div>

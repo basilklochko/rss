@@ -1,0 +1,41 @@
+<strong>Sign In</strong>
+<hr/>
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">Email</label>
+        <div class="col-lg-3 col-md-4 col-sm-5">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email" [(ngModel)]="user.email">
+            <span [hidden]="user.isEmailValid()" class="text-danger">Email address is invalid</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password" class="col-sm-2 control-label">Password</label>
+        <div class="col-lg-3 col-md-4 col-sm-5">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" [(ngModel)]="user.password">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8">
+            <div class="checkbox">
+                <label>
+                <input type="checkbox" name="isRemembered" [(ngModel)]="user.isRemembered"> Remember me
+              </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8">
+            <button type="submit" class="btn btn-primary" [disabled]="user.email.length == 0 || user.password.length == 0" (click)="onSignIn()">Sign In</button>&nbsp;
+            <br>
+            <a href="/newuser"><br>Create User</a>
+            <br>
+            <a href="/remind">Remind Password</a>
+            <hr>
+            <div class="g-signin2" #googleSignIn data-onsuccess="onSignIn" *ngIf="currentUser == null || currentUser == undefined" [hidden]="false"></div>
+        </div>
+    </div>
+</form>
+
+<div [hidden]="user._id == null">
+    <div class="alert alert-danger" role="alert" [hidden]="user._id != null && user._id.length > 0">{{user.error}}</div>
+</div>

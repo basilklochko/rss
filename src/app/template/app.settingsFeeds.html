@@ -1,0 +1,155 @@
+<strong>Manage Feeds</strong>
+<hr/>
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="feed.url" class="col-lg-2 col-md-2 col-sm-3 control-label">New Feed URL <span class="text-danger">*</span></label>
+        <div class="col-lg-4 col-sm-8">
+            <input type="text" class="form-control" id="feed.url" name="feed.url" placeholder="Url" [(ngModel)]="feed.url">
+            <span [hidden]="feed.isUrlValid()" class="text-danger">Url address is invalid</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="feed.name" class="col-lg-2 col-md-2 col-sm-3 control-label">New Feed Name <span class="text-danger">*</span></label>
+        <div class="col-lg-4 col-sm-8">
+            <input type="text" class="form-control" id="feed.name" name="feed.name" placeholder="Name" [(ngModel)]="feed.name">
+        </div>
+    </div>
+    <div *ngIf="feed.feedMapper != null && feed.feedMapper.title != ''">
+        <h5>Feed parsed and article fields are being mapped to</h5>
+        <div class="form-group">
+            <label for="feed.feedMapper.title" class="col-lg-2 col-md-2 col-sm-3 control-label">Title Field</label>
+            <div class="col-lg-4 col-sm-8">
+                <input type="text" class="form-control" id="feed.feedMapper.title" name="feed.feedMapper.title" placeholder="Title Field"
+                    [(ngModel)]="feed.feedMapper.title">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="feed.feedMapper.description" class="col-lg-2 col-md-2 col-sm-3 control-label">Description Field</label>
+            <div class="col-lg-4 col-sm-8">
+                <input type="text" class="form-control" id="feed.feedMapper.description" name="feed.feedMapper.description" placeholder="Description Field"
+                    [(ngModel)]="feed.feedMapper.description">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="feed.feedMapper.link" class="col-lg-2 col-md-2 col-sm-3 control-label">Link Field</label>
+            <div class="col-lg-4 col-sm-8">
+                <input type="text" class="form-control" id="feed.feedMapper.link" name="feed.feedMapper.link" placeholder="Link Field" [(ngModel)]="feed.feedMapper.link">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="feed.feedMapper.pubDate" class="col-lg-2 col-md-2 col-sm-3 control-label">Date Field</label>
+            <div class="col-lg-4 col-sm-8">
+                <input type="text" class="form-control" id="feed.feedMapper.pubDate" name="feed.feedMapper.pubDate" placeholder="Date Field"
+                    [(ngModel)]="feed.feedMapper.pubDate">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="feed.feedMapper.author" class="col-lg-2 col-md-2 col-sm-3 control-label">Author Field</label>
+            <div class="col-lg-4 col-sm-8">
+                <input type="text" class="form-control" id="feed.feedMapper.author" name="feed.feedMapper.author" placeholder="Author Field"
+                    [(ngModel)]="feed.feedMapper.author">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="feed.categories" class="col-lg-2 col-md-2 col-sm-3 control-label">Categories</label>
+            <div class="col-lg-4 col-sm-8">
+                <app-category-multi [isEditMode]="true" (categoriesUpdated)="handleCategoriesUpdated($event)"></app-category-multi>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-3 col-sm-8">
+            <button type="submit" class="btn btn-primary" (click)="onParse()" [disabled]="feed.url == '' || feed.name == ''" *ngIf="feed.feedMapper == null">Parse</button>
+            <button type="submit" class="btn btn-primary" (click)="onAdd()" [disabled]="feed.url == '' && feed.name == ''" *ngIf="feed.feedMapper != null">Add</button>
+            <button type="submit" class="btn btn-primary" (click)="onClear()">Clear</button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>
+            Feed Name
+        </th>
+        <th>
+            Url
+        </th>
+        <th>
+            Mapping
+        </th>
+        <th>
+            Categories
+        </th>
+        <th width="20%">
+
+        </th>
+    </tr>
+    <tbody class="">
+        <tr *ngFor="let feed of feeds">
+            <td>
+                <span *ngIf="!feed.isEditMode">{{ feed.name }}</span>
+                <div class="form-inline" *ngIf="feed.isEditMode">
+                    <div class="form-group">
+                        <div>
+                            <input type="text" class="form-control" id="feed" name="feed" placeholder="feed" [(ngModel)]="feed.name">
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <a href="{{feed.url}}" target="_blank">{{feed.url}}</a>
+            </td>
+            <td>
+                <form class="form-horizontal">
+                    <div class="form-inline">
+                        <span *ngIf="!feed.isEditMode">{{feed.feedMapper.title}}</span>
+                        <div *ngIf="feed.isEditMode">
+                            <input type="text" class="form-control" id="title" name="title" placeholder="title" [(ngModel)]="feed.feedMapper.title"><br>
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <span *ngIf="!feed.isEditMode">{{feed.feedMapper.description}}</span>
+                        <div *ngIf="feed.isEditMode">
+                            <input type="text" class="form-control" id="description" name="description" placeholder="description" [(ngModel)]="feed.feedMapper.description"><br>
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <span *ngIf="!feed.isEditMode">{{feed.feedMapper.link}}</span>
+                        <div *ngIf="feed.isEditMode">
+                            <input type="text" class="form-control" id="link" name="link" placeholder="link" [(ngModel)]="feed.feedMapper.link"><br>
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <span *ngIf="!feed.isEditMode">{{feed.feedMapper.pubDate}}</span>
+                        <div *ngIf="feed.isEditMode">
+                            <input type="text" class="form-control" id="date" name="date" placeholder="date" [(ngModel)]="feed.feedMapper.pubDate"><br>
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <span *ngIf="!feed.isEditMode">{{feed.feedMapper.author}}</span>
+                        <div *ngIf="feed.isEditMode">
+                            <input type="text" class="form-control" id="author" name="author" placeholder="author" [(ngModel)]="feed.feedMapper.author"><br>
+                        </div>
+                    </div>
+                </form>
+            </td>
+            <td>
+                <app-category-multi [isEditMode]="feed.isEditMode" [feed]="feed" (categoriesUpdated)="handleCategoriesUpdated($event)"></app-category-multi>
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary" (click)='onEdit(feed)' *ngIf="!feed.isEditMode && !feed.isDeleteMode">Edit</button>
+                <div *ngIf="feed.isEditMode">
+                    <button type="button" class="btn btn-primary" [disabled]="feed.name.length == 0" (click)="onUpdate(feed)">Update</button>
+                    <button type="button" class="btn btn-primary" (click)='onCancel(feed)'>Cancel</button>
+                </div>
+
+                <button type="button" class="btn btn-primary" (click)="onDelete(feed)" *ngIf="!feed.isDeleteMode && !feed.isEditMode">Delete</button>
+                <div *ngIf="!feed.isEditMode">
+                    <span *ngIf="feed.isDeleteMode" class="text-danger"><small>Please confirm deletion of the feed.</small></span><br>
+                    <button type="button" class="btn btn-primary" (click)="onConfirmDelete(feed)" *ngIf="feed.isDeleteMode">Confirm</button>
+                    <button type="button" class="btn btn-primary" (click)="onCancelDelete(feed)" *ngIf="feed.isDeleteMode">Cancel</button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

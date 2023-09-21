@@ -1,0 +1,56 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" routerLink="/">
+            <img alt="RSS Reader" title="RSS Reader" src="assets/img/rss-logo.png" width="20px" />
+        </a>
+    </div>
+    <div class="navbar-header hidden-xs">
+        <a class="navbar-brand" routerLink="/">
+            RSS Reader
+        </a>
+    </div>
+    <ul class="nav navbar-nav" *ngIf="securityService.user != null">
+        <li class="dropdown active">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-cog"></span> Manage
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a routerLink="/settings/categories">
+                        <span class="glyphicon glyphicon-th-list"></span> Feed Categories</a>
+                </li>
+                <li>
+                    <a routerLink="/settings/feeds">
+                        <span class="glyphicon glyphicon-list-alt"></span> Feeds</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" *ngIf="securityService.user != null">
+        <li class="dropdown active">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-user" *ngIf="securityService.user.googleImageUrl == null || securityService.user.googleImageUrl == undefined || securityService.user.googleImageUrl == ''"></span>
+                <img src="{{securityService.user.googleImageUrl}}" class="img-circle" width="18px" *ngIf="securityService.user.googleImageUrl != null && securityService.user.googleImageUrl != undefined && securityService.user.googleImageUrl != ''"
+                /> {{securityService.user.email}}
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a routerLink="/changepassword">
+                        <span class="glyphicon glyphicon-lock"></span> Change Password</a>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                    <a routerLink="/deleteaccount">
+                        <span class="glyphicon glyphicon-remove"></span> Delete Account</a>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                    <a routerLink="javascript: void(0);" onclick="signOut();">
+                        <span class="glyphicon glyphicon-off" #logout></span> Sign Out</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>

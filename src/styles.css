@@ -1,0 +1,25 @@
+.btn-primary{
+    background-color: black;
+    border-radius: 0;
+}
+
+.form-control{
+    border-radius: 0;
+}
+
+.navbar-brand{
+    color:#ffffff !important
+}
+
+.dropdown-menu>li>a {
+    color: white;
+}
+
+.dropdown-menu {
+    background-color: black;
+}
+
+.abcRioButtonContentWrapper {
+    background-color: black;
+    color: white;
+}

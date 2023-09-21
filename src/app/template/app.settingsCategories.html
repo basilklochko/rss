@@ -1,0 +1,48 @@
+<strong>Manage Feed Categories</strong>
+<hr/>
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="category" class="col-lg-2 col-md-3 col-sm-3 control-label">New Category Name <span class="text-danger">*</span></label>
+        <div class="col-lg-4 col-sm-8">
+            <input type="text" class="form-control" id="category" name="category" placeholder="Category" [(ngModel)]="category.name">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-md-offset-3 col-sm-offset-3 col-sm-8">
+            <button type="submit" class="btn btn-primary" (click)="onAdd()" [disabled]="category.name == ''">Add</button>
+            <button type="button" class="btn btn-primary" (click)="onClear()">Clear</button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th width="30%">
+
+        </th>
+    </tr>
+    <tbody class="">
+        <tr *ngFor="let category of categories">
+            <td>
+                <span *ngIf="!category.isEditMode">{{ category.name }}</span>
+                <input type="text" class="form-control" id="category" name="category" placeholder="Category" [(ngModel)]="category.name"
+                    *ngIf="category.isEditMode">
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary" (click)='onEdit(category)' *ngIf="!category.isEditMode && !category.isDeleteMode">Edit</button>
+                <div *ngIf="category.isEditMode">
+                    <button type="button" class="btn btn-primary" [disabled]="category.name.length == 0" (click)="onUpdate(category)">Update</button>
+                    <button type="button" class="btn btn-primary" (click)='onCancel(category)'>Cancel</button>
+                </div>
+
+                <button type="button" class="btn btn-primary" (click)="onDelete(category)" *ngIf="!category.isDeleteMode && !category.isEditMode">Delete</button>
+                <span *ngIf="category.isDeleteMode" class="text-danger"><small>Please confirm deletion of the category (won't delete any feed associated with it).</small></span><br>
+                <button type="button" class="btn btn-primary" (click)="onConfirmDelete(category)" *ngIf="category.isDeleteMode">Confirm</button>
+                <button type="button" class="btn btn-primary" (click)="onCancelDelete(category)" *ngIf="category.isDeleteMode">Cancel</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

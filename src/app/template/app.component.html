@@ -1,0 +1,5 @@
+<div style="padding-top: 80px" [style.opacity]='uiService.isLoading ? "0.4" : ""'>
+    <img src="/assets/img/loading.gif " style='position: absolute; width: 50px; top: 10%; left: 50%; z-index: 999;' *ngIf='uiService.isLoading'
+    />
+    <router-outlet></router-outlet>
+</div>

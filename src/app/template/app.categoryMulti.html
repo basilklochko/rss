@@ -1,0 +1,11 @@
+<div class="form-inline" *ngIf="isEditMode">
+    <select class="form-control" [(ngModel)]="selectedCategory">        
+        <option value="">Select Category</option>
+        <option *ngFor="let category of categories" [value]="category._id">{{ category.name }}</option>
+    </select>
+    <button type="button" class="btn btn-primary btn-sm" (click)="onAdd()"><span class="glyphicon glyphicon-plus"></span></button>
+</div>
+<div>
+    <button type="button" [disabled]="!isEditMode" class="btn btn-primary btn-sm" *ngFor="let category of selectedCategories"
+        (click)="onDeleteCategory(category)">{{ category.name }} <span class="glyphicon glyphicon-remove"></span></button>
+</div>
