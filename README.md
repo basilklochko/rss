@@ -11,7 +11,3 @@ RSS Feed Reader
 * Google Auth
 * Websocket
 * Bootstrap
-
-### Deployed To ###
-
-https://rssfeedreader.herokuapp.com/
